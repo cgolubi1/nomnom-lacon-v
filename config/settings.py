@@ -141,6 +141,7 @@ INSTALLED_APPS = [
     # "nomnom.advise",
     # The hugo packet app
     "nomnom.hugopacket",
+    "nomnom.convention_admin",
 ]
 
 SITE_ID = 1

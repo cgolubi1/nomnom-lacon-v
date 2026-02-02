@@ -102,6 +102,8 @@ seed:
         uv run manage.py loaddata $seed_file
     done
 
+    uv run manage.py seed_all --full yugo-awards "The Yugo Awards"
+
 # update dependencies
 update: update-precommit update-gha update-uv
 

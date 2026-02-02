@@ -1011,6 +1011,18 @@ wheels = [
 ]
 
 [[package]]
+name = "markdown-it-py"
+version = "4.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mdurl" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5b/f5/4ec618ed16cc4f8fb3b701563655a69816155e79e24a17b651541804721d/markdown_it_py-4.0.0.tar.gz", hash = "sha256:cb0a2b4aa34f932c007117b194e945bd74e0ec24133ceb5bac59009cda1cb9f3", size = 73070, upload-time = "2025-08-11T12:57:52.854Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/94/54/e7d793b573f298e1c9013b8c4dade17d481164aa517d1d7148619c2cedbf/markdown_it_py-4.0.0-py3-none-any.whl", hash = "sha256:87327c59b172c5011896038353a81343b6754500a08cd7a4973bb48c6d578147", size = 87321, upload-time = "2025-08-11T12:57:51.923Z" },
+]
+
+[[package]]
 name = "markupsafe"
 version = "3.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1039,6 +1051,15 @@ wheels = [
 ]
 
 [[package]]
+name = "mdurl"
+version = "0.1.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/54/cfe61301667036ec958cb99bd3efefba235e65cdeb9c84d24a8293ba1d90/mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba", size = 8729, upload-time = "2022-08-14T12:40:10.846Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8", size = 9979, upload-time = "2022-08-14T12:40:09.779Z" },
+]
+
+[[package]]
 name = "more-itertools"
 version = "10.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1058,7 +1079,7 @@ wheels = [
 
 [[package]]
 name = "nomnom-hugoawards"
-version = "2026.2.0"
+version = "2026.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
@@ -1091,6 +1112,7 @@ dependencies = [
     { name = "django-svcs" },
     { name = "django-watchman" },
     { name = "environ-config" },
+    { name = "faker" },
     { name = "flower" },
     { name = "fontawesomefree" },
     { name = "inflect" },
@@ -1098,14 +1120,15 @@ dependencies = [
     { name = "psycopg", extra = ["binary"] },
     { name = "pyrankvote" },
     { name = "redis" },
+    { name = "rich" },
     { name = "sentry-sdk", extra = ["celery", "django"] },
     { name = "social-auth-core" },
     { name = "svcs" },
     { name = "whitenoise" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/23/68/7baf67792c684630739198840c23bd06d16a5afa002536a919fb34fdf0f2/nomnom_hugoawards-2026.2.0.tar.gz", hash = "sha256:3e2083620eeefbaf01e4a50f1dc993bf3b5f71ceed17d4861ff034f74ef9193e", size = 2560200, upload-time = "2026-02-01T00:58:35.764Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5a/68/b8e1e628b9298cab15e99c428dea8ff73b1dad86b072e82878d543c6e041/nomnom_hugoawards-2026.2.1.tar.gz", hash = "sha256:2444f0586c5df65f4be45e35323a4ba67e6760e69d05d71067aad2d2773677cc", size = 2585945, upload-time = "2026-02-03T01:10:55.639Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c3/ab/81288793b2ab726089b567637941fdba85a7f770d18717a03574c5eb8286/nomnom_hugoawards-2026.2.0-py3-none-any.whl", hash = "sha256:81bbfbe51e3b71908effc1d0e74b7379958f6d89d7dfe70ef119e0d81f77d672", size = 2322801, upload-time = "2026-02-01T00:58:33.482Z" },
+    { url = "https://files.pythonhosted.org/packages/05/16/db02038076f0fbba0bd0257ff5fe0db5f47e8205ccc44dc0587992afc96c/nomnom_hugoawards-2026.2.1-py3-none-any.whl", hash = "sha256:362412b8812f68cb039a491370c6263b4e55d670f3132420d629ca8a55f9ef58", size = 2359340, upload-time = "2026-02-03T01:10:52.964Z" },
 ]
 
 [[package]]
@@ -1421,6 +1444,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/42/f2/05f29bc3913aea15eb670be136045bf5c5bbf4b99ecb839da9b422bb2c85/requests-oauthlib-2.0.0.tar.gz", hash = "sha256:b3dffaebd884d8cd778494369603a9e7b58d29111bf6b41bdc2dcd87203af4e9", size = 55650, upload-time = "2024-03-22T20:32:29.939Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3b/5d/63d4ae3b9daea098d5d6f5da83984853c1bbacd5dc826764b249fe119d24/requests_oauthlib-2.0.0-py2.py3-none-any.whl", hash = "sha256:7dd8a5c40426b779b0868c404bdef9768deccf22749cde15852df527e6269b36", size = 24179, upload-time = "2024-03-22T20:32:28.055Z" },
+]
+
+[[package]]
+name = "rich"
+version = "14.3.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "markdown-it-py" },
+    { name = "pygments" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/74/99/a4cab2acbb884f80e558b0771e97e21e939c5dfb460f488d19df485e8298/rich-14.3.2.tar.gz", hash = "sha256:e712f11c1a562a11843306f5ed999475f09ac31ffb64281f73ab29ffdda8b3b8", size = 230143, upload-time = "2026-02-01T16:20:47.908Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ef/45/615f5babd880b4bd7d405cc0dc348234c5ffb6ed1ea33e152ede08b2072d/rich-14.3.2-py3-none-any.whl", hash = "sha256:08e67c3e90884651da3239ea668222d19bea7b589149d8014a21c633420dbb69", size = 309963, upload-time = "2026-02-01T16:20:46.078Z" },
 ]
 
 [[package]]
