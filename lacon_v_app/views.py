@@ -19,10 +19,12 @@ def landing(request: HttpRequest) -> HttpResponse:
         )
         return redirect("index")
 
-    messages.info(
-        request,
-        "You are not logged in. Redirecting to the login page.",
-    )
+    # with Authentik, this pops up even if they are logged in inside authentik
+    # leading it to pop up after they are already logged in
+    # messages.info(
+    #     request,
+    #     "You are not logged in. Redirecting to the login page.",
+    # )
     # after login, redirect to the index
     next_url = reverse("index")
     login_url = reverse("social:begin", kwargs={"backend": "lacon"})
