@@ -7,5 +7,7 @@ app_name = "lacon_v_app"
 
 urlpatterns = [
     path("landing/", views.landing, name="landing"),
-    path("oidc/backchannel-logout/", logout.backchannel_logout, name="backchannel_logout"),
+    path(
+        "oidc/backchannel-logout/", logout.backchannel_logout, name="backchannel_logout"
+    ),
 ]

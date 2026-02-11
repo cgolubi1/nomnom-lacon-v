@@ -1,6 +1,5 @@
 from urllib.parse import urlencode
 
-from django.contrib import messages
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, reverse
 
@@ -13,10 +12,6 @@ def landing(request: HttpRequest) -> HttpResponse:
     If the member is not, redirect immediately to the login page on Authentik"""
 
     if request.user.is_authenticated:
-        messages.info(
-            request,
-            "You are already logged in. Redirecting to the main page.",
-        )
         return redirect("index")
 
     # with Authentik, this pops up even if they are logged in inside authentik
