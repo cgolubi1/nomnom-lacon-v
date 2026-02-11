@@ -4,34 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+
     initial = True
 
-    dependencies = []
+    dependencies = [
+    ]
 
     operations = [
         migrations.CreateModel(
-            name="OIDCSessionMapping",
+            name='OIDCSessionMapping',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("sid", models.CharField(db_index=True, max_length=255)),
-                ("session_key", models.CharField(db_index=True, max_length=40)),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('sid', models.CharField(db_index=True, max_length=255)),
+                ('session_key', models.CharField(db_index=True, max_length=40)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                "indexes": [
-                    models.Index(fields=["sid"], name="lacon_v_app_sid_32ad44_idx"),
-                    models.Index(
-                        fields=["session_key"], name="lacon_v_app_session_65a0f0_idx"
-                    ),
-                ],
+                'indexes': [models.Index(fields=['sid'], name='lacon_v_app_sid_32ad44_idx'), models.Index(fields=['session_key'], name='lacon_v_app_session_65a0f0_idx')],
             },
         ),
     ]
