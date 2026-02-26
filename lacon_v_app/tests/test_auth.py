@@ -11,6 +11,7 @@ from lacon_v_app.auth import (
     get_wsfs_permissions,
     set_member_details,
     store_full_membership_data,
+    update_user_details,
 )
 
 User = get_user_model()
@@ -557,6 +558,251 @@ class TestCreateUser:
         # Username should fallback to anonymous when no email available
         assert user.username == "user_anonymous"
         assert user.email == ""
+
+
+class TestUpdateUserDetails:
+    def test_updates_email_when_provider_gives_different_email(
+        self, mock_strategy, test_user, db
+    ):
+        """Test that user's email is updated when auth provider returns different email"""
+        # Setup: User has original email
+        original_email = test_user.email
+        new_email = fake.email()
+
+        # Details with different email
+        details = {
+            "email": new_email,
+            "first_name": test_user.first_name,
+            "last_name": test_user.last_name,
+        }
+        response = {}
+
+        # Update user details
+        update_user_details(mock_strategy, details, test_user, response=response)
+        test_user.refresh_from_db()
+
+        # Verify email was updated
+        assert test_user.email == new_email
+        assert test_user.email != original_email
+
+    def test_updates_first_name_when_changed(self, mock_strategy, test_user, db):
+        """Test that user's first name is updated when changed"""
+        original_first_name = test_user.first_name
+        new_first_name = fake.first_name()
+
+        details = {
+            "email": test_user.email,
+            "first_name": new_first_name,
+            "last_name": test_user.last_name,
+        }
+        response = {}
+
+        update_user_details(mock_strategy, details, test_user, response=response)
+        test_user.refresh_from_db()
+
+        assert test_user.first_name == new_first_name
+        assert test_user.first_name != original_first_name
+
+    def test_updates_last_name_when_changed(self, mock_strategy, test_user, db):
+        """Test that user's last name is updated when changed"""
+        original_last_name = test_user.last_name
+        new_last_name = fake.last_name()
+
+        details = {
+            "email": test_user.email,
+            "first_name": test_user.first_name,
+            "last_name": new_last_name,
+        }
+        response = {}
+
+        update_user_details(mock_strategy, details, test_user, response=response)
+        test_user.refresh_from_db()
+
+        assert test_user.last_name == new_last_name
+        assert test_user.last_name != original_last_name
+
+    def test_updates_multiple_fields_at_once(self, mock_strategy, test_user, db):
+        """Test that multiple fields can be updated simultaneously"""
+        new_email = fake.email()
+        new_first_name = fake.first_name()
+        new_last_name = fake.last_name()
+
+        details = {
+            "email": new_email,
+            "first_name": new_first_name,
+            "last_name": new_last_name,
+        }
+        response = {}
+
+        update_user_details(mock_strategy, details, test_user, response=response)
+        test_user.refresh_from_db()
+
+        assert test_user.email == new_email
+        assert test_user.first_name == new_first_name
+        assert test_user.last_name == new_last_name
+
+    def test_does_not_update_when_values_unchanged(self, mock_strategy, test_user, db):
+        """Test that user is not saved when values are unchanged"""
+        original_email = test_user.email
+        original_first_name = test_user.first_name
+        original_last_name = test_user.last_name
+
+        details = {
+            "email": original_email,
+            "first_name": original_first_name,
+            "last_name": original_last_name,
+        }
+        response = {}
+
+        # Track the updated_at field if it exists, or just verify values don't change
+        update_user_details(mock_strategy, details, test_user, response=response)
+        test_user.refresh_from_db()
+
+        # Values should remain the same
+        assert test_user.email == original_email
+        assert test_user.first_name == original_first_name
+        assert test_user.last_name == original_last_name
+
+    def test_handles_missing_user(self, mock_strategy, db):
+        """Test that function returns early when user is None"""
+        details = {
+            "email": fake.email(),
+            "first_name": fake.first_name(),
+            "last_name": fake.last_name(),
+        }
+        response = {}
+
+        # Should not raise any errors
+        result = update_user_details(
+            mock_strategy, details, user=None, response=response
+        )
+        assert result is None
+
+    def test_handles_missing_fields_in_details(self, mock_strategy, test_user, db):
+        """Test that function handles missing fields in details gracefully"""
+        original_email = test_user.email
+        original_first_name = test_user.first_name
+        original_last_name = test_user.last_name
+
+        # Empty details
+        details = {}
+        response = {}
+
+        update_user_details(mock_strategy, details, test_user, response=response)
+        test_user.refresh_from_db()
+
+        # Values should remain unchanged
+        assert test_user.email == original_email
+        assert test_user.first_name == original_first_name
+        assert test_user.last_name == original_last_name
+
+    def test_integration_with_full_pipeline(self, mock_strategy, test_user, db):
+        """Test update_user_details with full pipeline data"""
+        # Setup: User has original values
+        original_email = test_user.email
+
+        # Auth response with different email
+        response = generate_auth_response()
+        new_email = fake.email()
+        response["email"] = new_email
+
+        details = {}
+
+        # Run pipeline functions to populate details
+        adapt_regid_to_username(mock_strategy, details, test_user, response=response)
+        adapt_personal_information(mock_strategy, details, test_user, response=response)
+
+        # Update user with new details
+        update_user_details(mock_strategy, details, test_user, response=response)
+        test_user.refresh_from_db()
+
+        # Email should be updated
+        assert test_user.email == new_email
+        assert test_user.email != original_email
+
+
+class TestEmailUpdate:
+    def test_user_email_updated_when_provider_gives_different_email(
+        self, mock_strategy, test_user, db
+    ):
+        """Test that user's email is updated when auth provider returns different email"""
+        # Setup: User has original email
+        original_email = test_user.email
+        new_email = fake.email()
+
+        # Auth response with different email
+        response = generate_auth_response()
+        response["email"] = new_email
+
+        details = {}
+
+        # Run through the pipeline
+        adapt_regid_to_username(mock_strategy, details, test_user, response=response)
+        adapt_personal_information(mock_strategy, details, test_user, response=response)
+
+        # Email should be in details with new value
+        assert details["email"] == new_email
+        assert details["email"] != original_email
+
+        # Now update the user with the new details
+        update_user_details(mock_strategy, details, test_user, response=response)
+        test_user.refresh_from_db()
+
+        # Verify email was updated
+        assert test_user.email == new_email
+        assert test_user.email != original_email
+
+    def test_user_email_updated_for_existing_user_on_login(self, mock_strategy, db):
+        """Test that existing user's email gets updated when they log in with new email"""
+        # Create an existing user with an email
+        username = fake.user_name()
+        original_email = fake.email()
+        user = User.objects.create_user(
+            username=username,
+            email=original_email,
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+        )
+
+        # Auth provider returns different email
+        new_email = fake.email()
+        response = generate_auth_response()
+        response["email"] = new_email
+        response["reg-id"] = username  # Same user
+
+        details = {}
+
+        # Run pipeline for existing user
+        adapt_regid_to_username(mock_strategy, details, user, response=response)
+        adapt_personal_information(mock_strategy, details, user, response=response)
+
+        # Email in details should be the new one
+        assert details["email"] == new_email
+
+        # Update user details
+        update_user_details(mock_strategy, details, user, response=response)
+        user.refresh_from_db()
+
+        # Verify update
+        assert user.email == new_email
+        assert user.email != original_email
+
+
+class TestSessionDuration:
+    def test_default_session_duration_is_six_months(self, client, settings):
+        """Test that the default session duration is 6 months (approximately 180 days)"""
+        # Django's default SESSION_COOKIE_AGE is 2 weeks (1209600 seconds)
+        # 6 months is approximately 15552000 seconds (180 days * 24 hours * 60 minutes * 60 seconds)
+        six_months_in_seconds = 180 * 24 * 60 * 60
+
+        # Check the configured session cookie age
+        session_age = getattr(settings, "SESSION_COOKIE_AGE", 1209600)
+
+        # Assert that the session age is set to 6 months
+        assert session_age == six_months_in_seconds, (
+            f"Expected SESSION_COOKIE_AGE to be {six_months_in_seconds} seconds (6 months), "
+            f"but got {session_age} seconds"
+        )
 
 
 class TestSetMemberDetails:

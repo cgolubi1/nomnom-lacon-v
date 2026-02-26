@@ -164,6 +164,41 @@ def create_user(
     return {"user": created_user, "is_new": True}
 
 
+def update_user_details(
+    strategy: BaseStrategy,
+    details: dict[str, Any],
+    user=None,
+    *args,
+    response: dict[str, Any],
+    **kwargs,
+) -> None:
+    """Update user details including email if changed by the auth provider"""
+    if not user:
+        return
+
+    changed = False
+
+    # Update email if it differs from what the provider says
+    if details.get("email") and user.email != details["email"]:
+        user.email = details["email"]
+        changed = True
+
+    # Update first name if provided and different
+    if details.get("first_name") and user.first_name != details["first_name"]:
+        user.first_name = details["first_name"]
+        changed = True
+
+    # Update last name if provided and different
+    if details.get("last_name") and user.last_name != details["last_name"]:
+        user.last_name = details["last_name"]
+        changed = True
+
+    if changed:
+        user.save()
+
+    return
+
+
 def set_member_details(
     strategy: BaseStrategy,
     details: dict[str, Any],

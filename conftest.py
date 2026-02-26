@@ -30,3 +30,12 @@ def use_test_settings(settings):
     }
 
     settings.WHITENOISE_AUTOREFRESH = True
+
+    # Exclude add_election_permissions from the pipeline in tests
+    # This function requires Group fixtures ("Nominator", "Voter") that we don't need
+    # for testing the authentication flow itself
+    settings.SOCIAL_AUTH_PIPELINE = [
+        step
+        for step in settings.SOCIAL_AUTH_PIPELINE
+        if step != "nomnom.nominate.social_auth.pipeline.add_election_permissions"
+    ]

@@ -282,11 +282,17 @@ SOCIAL_AUTH_PIPELINE = [
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
     "lacon_v_app.auth.get_wsfs_permissions",
+    "lacon_v_app.auth.update_user_details",
     "lacon_v_app.auth.set_member_details",
     "nomnom.nominate.social_auth.pipeline.set_user_wsfs_membership",
     "nomnom.nominate.social_auth.pipeline.add_election_permissions",
     "lacon_v_app.auth.store_oidc_session_mapping",
 ]
+
+# Session configuration
+# Set session duration to 6 months (180 days)
+SESSION_COOKIE_AGE = 180 * 24 * 60 * 60  # 15552000 seconds
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
