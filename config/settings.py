@@ -90,7 +90,7 @@ CSRF_TRUSTED_ORIGINS = [f"https://{h}" for h in ALLOWED_HOSTS] if ALLOWED_HOSTS 
 # Application definition
 
 INSTALLED_APPS = [
-    "nomnom.apps.NomnomAdminConfig",
+    "config.apps.LaconVAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
