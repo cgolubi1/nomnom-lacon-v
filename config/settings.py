@@ -129,6 +129,8 @@ INSTALLED_APPS = [
     "watchman",
     # Markdown field support
     "markdownfield",
+    # Feature flags
+    "waffle",
     # the convention theme; this MUST come before the nominate app, so that its templates can
     # override the nominate ones.
     "lacon_v_app",
@@ -138,7 +140,7 @@ INSTALLED_APPS = [
     "nomnom.nominate",
     "nomnom.canonicalize",
     # Consultative Votes
-    # "nomnom.advise",
+    "nomnom.advise",
     # The hugo packet app
     "nomnom.hugopacket",
     "nomnom.convention_admin",
@@ -167,6 +169,7 @@ MIDDLEWARE = [
     "social_django.middleware.SocialAuthExceptionMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "nomnom.middleware.HtmxMessageMiddleware",
+    "waffle.middleware.WaffleMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"

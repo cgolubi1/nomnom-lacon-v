@@ -41,17 +41,11 @@ urlpatterns = (
         path("accounts/", include("django.contrib.auth.urls")),
         path("watchman/", include("watchman.urls")),
         path("__reload__/", include("django_browser_reload.urls")),
+        path("p/", include("nomnom.hugopacket.urls", namespace="hugopacket")),
+        path("bm/", include("nomnom.advise.urls", namespace="advise")),
     ]
     + debug_toolbar_urls()
     + djp.urlpatterns()
 )
-
-if convention_configuration.hugo_packet_backend is not None:
-    urlpatterns.append(
-        path("p/", include("nomnom.hugopacket.urls", namespace="hugopacket")),
-    )
-
-if convention_configuration.advisory_votes_enabled:
-    urlpatterns.append(path("bm/", include("nomnom.advise.urls", namespace="advise")))
 
 handler403 = "nomnom.nominate.views.access_denied"
