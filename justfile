@@ -139,6 +139,20 @@ refresh-nomnom:
             --format=c \
             --verbose
 
+export file='export.json': db_data
+    docker compose run \
+        --no-deps \
+        --rm \
+        --entrypoint "bash" \
+        --volume "{{ justfile_directory() }}/data/:/_data/" \
+        web -c \
+        'python manage.py dumpdata \
+            --indent 4 \
+            --natural-foreign \
+            --natural-primary \
+            -o /_data/{{ file }} \
+            base nominate canonicalize advise hugopacket convention_admin lacon_v_app'
+
 # restore database dump from file
 @pg_restore file='db.dump': db_data
     docker compose run \
