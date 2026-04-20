@@ -497,4 +497,8 @@ try:
 except ImportError:
     ...
 
+# Packet configuration
+HUGOPACKET_AWS_REGION = "sfo3"
+HUGOPACKET_AWS_ENDPOINT = "https://sfo3.digitaloceanspaces.com/"
+
 djp.settings(globals())
