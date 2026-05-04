@@ -1030,7 +1030,7 @@ requires-dist = [
     { name = "django", specifier = ">=5.2.12,<6.0.0" },
     { name = "django-debug-toolbar", specifier = ">=6.0.0" },
     { name = "granian", specifier = ">=1.6.3" },
-    { name = "nomnom-hugoawards", specifier = ">=2026.9.0rc0,<2027" },
+    { name = "nomnom-hugoawards", specifier = ">=2026.9.1,<2027" },
     { name = "pyjwt", specifier = ">=2.8.0" },
     { name = "social-auth-app-django", specifier = "~=5.4" },
 ]
@@ -1127,7 +1127,7 @@ wheels = [
 
 [[package]]
 name = "nomnom-hugoawards"
-version = "2026.9.0"
+version = "2026.9.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
@@ -1178,9 +1178,9 @@ dependencies = [
     { name = "svcs" },
     { name = "whitenoise" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/33/6b/cda301ca0be5479f2cd95be6ed2a04dc8e314bc3cc34fb2aa94ca401ff0c/nomnom_hugoawards-2026.9.0.tar.gz", hash = "sha256:9c0250fe4ec08afb1d52c7b78b928c4ad9024bf23f98b8fa63bb912e6374e92b", size = 2736526, upload-time = "2026-05-04T01:14:30.885Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/0f/13be97786fc738f87bc48531592231c655f0981aa967b7e4f9a7b4f085ef/nomnom_hugoawards-2026.9.1.tar.gz", hash = "sha256:05cecc357d6e1e27433f13e90d4900d93c8df9f6d41698f4180cfa6646f6c427", size = 2737096, upload-time = "2026-05-04T20:05:31.398Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/cc/8f198cfe906153a33d9d1af2c22d5bf7abdbcd151483f01414afaac43475/nomnom_hugoawards-2026.9.0-py3-none-any.whl", hash = "sha256:b116677b92e05105566a4d183dbfc9977dea0bfbb4cd2f2b21025ca29490eb5b", size = 2522552, upload-time = "2026-05-04T01:14:28.962Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/62/0cb5f61db0a188bba32eea54e7b1f3a09b6493b501030feaf4fb415d9563/nomnom_hugoawards-2026.9.1-py3-none-any.whl", hash = "sha256:a11f117ca3ebd630d0bc3cb85dd54d0aae20e0ae3a93f612d68634b7c12f74f3", size = 2522590, upload-time = "2026-05-04T20:05:28.925Z" },
 ]
 
 [[package]]
