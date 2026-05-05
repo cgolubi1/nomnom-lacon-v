@@ -1,0 +1,90 @@
+{% load markdownify %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="section-container" style="margin-left: {{ depth }}rem;">
+            {% if depth == 0 %}
+                {# Check if this is a packet-level section (no subsections) or category (has subsections) #}
+                {% if not section_data.subsections %}
+                    {# Packet-level section (e.g., "Full Packet") - always visible #}
+                    <div class="packet-level-section">
+                        <h2>{{ section_data.section.name }}</h2>
+                        {% if section_data.section.description %}
+                            <div class="section-description mb-3">{{ section_data.section.description|markdownify }}</div>
+                        {% endif %}
+                        {# All files in packet-level section are always visible #}
+                        {% for packet_file in section_data.files %}
+                            {% include "hugopacket/bits/packet_file.html" with packet=packet_file %}
+                            {% if not forloop.last %}<hr>{% endif %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {# Category section (e.g., "Best Novel") with collapsible finalists #}
+                    <div class="category-section">
+                        <div class="category-header">
+                            <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-start gap-2">
+                                <div>
+                                    <h2>{{ section_data.section.name }}</h2>
+                                    {% if section_data.section.description %}
+                                        <div class="section-description mb-3">{{ section_data.section.description|markdownify }}</div>
+                                    {% endif %}
+                                    {# Category-level files (e.g., "Best Novel - Complete Packet") - always visible #}
+                                    {% for packet_file in section_data.files %}
+                                        {% include "hugopacket/bits/packet_file.html" with packet=packet_file %}
+                                        {% if not forloop.last %}<hr>{% endif %}
+                                    {% endfor %}
+                                </div>
+                                {# Expand/Collapse button for all finalists in this category #}
+                                <button class="btn btn-sm btn-outline-primary expand-collapse-btn ms-3"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#finalists-category-{{ section_data.section.id }}"
+                                        aria-expanded="false"
+                                        aria-controls="finalists-category-{{ section_data.section.id }}">
+                                    Show all downloads
+                                </button>
+                            </div>
+                        </div>
+                        {# Collapsible container for ALL finalists in this category #}
+                        <div class="collapse finalist-container"
+                             id="finalists-category-{{ section_data.section.id }}">
+                            {% for subsection_data in section_data.subsections %}
+                                {% include "hugopacket/bits/section.html" with section_data=subsection_data depth=depth|add:1 %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% elif depth == 1 %}
+                {# Finalist subsection - rendered within category's collapsible container #}
+                <div class="finalist-item">
+                    <h3>{{ section_data.section.name }}</h3>
+                    {% if section_data.section.description %}
+                        <div class="section-description mb-3">{{ section_data.section.description|markdownify }}</div>
+                    {% endif %}
+                    {% for packet_file in section_data.files %}
+                        {% include "hugopacket/bits/packet_file.html" with packet=packet_file %}
+                        {% if not forloop.last %}<hr>{% endif %}
+                    {% endfor %}
+                    {% for subsection_data in section_data.subsections %}
+                        {% include "hugopacket/bits/section.html" with section_data=subsection_data depth=depth|add:1 %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                {# Deeper nesting levels (depth >= 2) - not collapsible #}
+                {% if depth == 2 %}
+                    <h4>{{ section_data.section.name }}</h4>
+                {% else %}
+                    <h5>{{ section_data.section.name }}</h5>
+                {% endif %}
+                {% if section_data.section.description %}
+                    <div class="section-description mb-3">{{ section_data.section.description|markdownify }}</div>
+                {% endif %}
+                {% for packet_file in section_data.files %}
+                    {% include "hugopacket/bits/packet_file.html" with packet=packet_file %}
+                    {% if not forloop.last %}<hr>{% endif %}
+                {% endfor %}
+                {% for subsection_data in section_data.subsections %}
+                    {% include "hugopacket/bits/section.html" with section_data=subsection_data depth=depth|add:1 %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
